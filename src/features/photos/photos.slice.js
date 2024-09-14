@@ -17,6 +17,12 @@ const options = {
     // Task 6: Create an `removePhoto()` case reducer that removes a photo from state.photos
     // Task 6 Hint: You can use state.photos.splice()
     // `splice()` documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+    addPhoto: (state, action) => {
+      state.photos.unshift(action.payload); // Add photo to the beginning of the array
+    },
+    removePhoto: (state, action) => {
+      state.photos = state.photos.filter(photo => photo.id !== action.payload); // Remove photo by ID
+    },
   },
 };
 
@@ -29,4 +35,8 @@ export default photosSlice.reducer;
 export const selectAllPhotos = (state) => state.photos.photos;
 export const selectFilteredPhotos = (state) => {
   // Task 12: Complete `selectFilteredPhotos()` selector to return a filtered list of photos whose captions match the user's search term
+  const searchTerm = selectSearchTerm(state).toLowerCase();
+  return state.photos.photos.filter((photo) =>
+    photo.caption.toLowerCase().includes(searchTerm)
+  )
 };
